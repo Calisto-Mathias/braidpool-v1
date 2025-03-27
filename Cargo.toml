@@ -8,4 +8,4 @@ hex = "0.4.3"
 num-bigint = "0.4.6"
 ordered-float = "5.0.0"
 transitive = "1.1.0"
-bitcoin = { git = "https://github.com/rust-bitcoin/rust-bitcoin.git" }
+bitcoin = { git = "https://github.com/braidpool/rust-bitcoin.git" }
