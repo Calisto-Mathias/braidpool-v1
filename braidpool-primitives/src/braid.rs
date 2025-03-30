@@ -130,6 +130,7 @@ impl DagBraid {
         cohorts
     }
 
+    #[inline]
     pub fn contains_bead(&self, bead_hash: BeadHash) -> bool {
         self.beads.contains(&bead_hash)
     }
