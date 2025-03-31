@@ -11,15 +11,15 @@ use crate::utils::BeadHash;
 use crate::utils::bitcoin::MerklePathProof;
 
 // TODO: Add in the uncommitted metadata into the Bead Structs!
-
-type TransactionWithMerklePath = (Transaction, MerklePathProof);
+pub type TransactionWithMerklePath = (Transaction, MerklePathProof);
 /// Refers to the final immutable beads that are added
 /// into the DagBraid data structure.
+#[derive(Clone)]
 pub struct DagBead {
     pub bead_data: Bead,
     pub observed_time_at_node: Time,
 }
-
+#[derive(Clone)]
 pub struct Bead {
     pub block_header: BlockHeader,
     pub bead_hash: BeadHash,

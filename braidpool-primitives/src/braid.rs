@@ -12,13 +12,14 @@ use crate::utils::bitcoin::MerklePathProof;
 // Custom Imports
 use crate::beads::{Bead, DagBead};
 use crate::utils::BeadHash;
-
+#[derive(Clone)]
 pub struct Cohort(HashSet<BeadHash>);
 
 // Type Aliases
 type NumberOfBeadsUnorphaned = usize;
 
 // Placeholder struct (Will be replaced with appropriate implementation later!)
+#[derive(Clone)]
 struct Database();
 impl Database {
     pub fn fetch_bead_from_memory(&self, bead_hash: BeadHash) -> DagBead {
@@ -67,10 +68,10 @@ impl Database {
         }
     }
 }
-
+#[derive(Clone)]
 pub struct DagBraid {
-    beads: HashSet<BeadHash>,
-    tips: HashSet<BeadHash>,
+    pub beads: HashSet<BeadHash>,
+    pub tips: HashSet<BeadHash>,
     cohorts: Vec<Cohort>,
 
     orphan_beads: Vec<DagBead>,
@@ -104,12 +105,12 @@ impl DagBraid {
         }
     }
 
-    fn calculate_cohorts(&self) -> Vec<Cohort> {
+    pub fn calculate_cohorts(&self) -> Vec<Cohort> {
         // TODO: Implement the cohorts calculating function!
         vec![Cohort(HashSet::new())]
     }
 
-    fn generate_tip_cohorts(&self) -> Vec<Cohort> {
+    pub fn generate_tip_cohorts(&self) -> Vec<Cohort> {
         let mut cohorts = Vec::new();
         let tips = self.tips.clone();
 
@@ -135,14 +136,14 @@ impl DagBraid {
     }
 
     #[inline]
-    fn remove_parent_beads_from_tips(&mut self, bead: &DagBead) {
+    pub fn remove_parent_beads_from_tips(&mut self, bead: &DagBead) {
         for (parent_hash, _) in &bead.bead_data.parents {
             self.tips.remove(parent_hash);
         }
     }
 
     #[inline]
-    fn is_bead_orphaned(&self, bead: &DagBead) -> bool {
+    pub fn is_bead_orphaned(&self, bead: &DagBead) -> bool {
         for (parent, _) in &bead.bead_data.parents {
             if self.beads.contains(parent) == false {
                 return true;
@@ -152,7 +153,7 @@ impl DagBraid {
         false
     }
 
-    fn update_orphan_bead_set(&mut self) -> NumberOfBeadsUnorphaned {
+    pub fn update_orphan_bead_set(&mut self) -> NumberOfBeadsUnorphaned {
         let old_orphan_set_length = self.orphan_beads.len();
         let old_orphan_set = std::mem::replace(&mut self.orphan_beads, Vec::new());
         for orphan_bead in old_orphan_set {
